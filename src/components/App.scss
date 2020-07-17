@@ -1,0 +1,161 @@
+@import 'bootstrap/scss/bootstrap-grid';
+$white: #FFFFFF;
+$black: #000000;
+
+$font-size: 1rem;
+$font-size-lg: 1.25rem;
+$font-size-sm: .875rem;
+$font-size-xs: .75rem;
+$line-height: 1.5rem;
+
+
+$nav-bar-height: calc(1rem * 5);
+$nav-font-size: $font-size;
+$nav-line-height: $line-height;
+$nav-title-font-size: $font-size * 1.5;
+$nav-title-line-height: $line-height;
+$nav-padding-y: .5rem;
+$nav-padding-x: 1rem;
+$nav-color: $black;
+$nav-color-bg: $white;
+$nav-box-shadow: 0 2px 4px 0 rgba($black,.3);
+
+$container-font-size: $font-size;
+$container-line-height: $line-height;
+$container-width: 1200px;
+$container-padding-y: 1.5rem;
+$container-padding-x: 1rem;
+$container-color: $black;
+$container-color-bg: $white;
+
+$card-padding-y: .5rem;
+$card-padding-x: 1rem;
+$card-color-bg: $white;
+$card-color: $black;
+$card-box-shadow: 0 2px 4px 0 rgba($black,.3);
+
+$footer-height: calc(1rem * 4);
+$footer-font-size: $font-size;
+$footer-line-height: $line-height;
+$footer-padding-y: .5rem;
+$footer-padding-x: 1rem;
+$footer-color: $black;
+$footer-color-bg: $white;
+
+
+button{
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+
+}
+
+.nav-bar{
+  width: 100%;
+  position: fixed;
+  top: 0;
+  display: flex;
+  align-items: center;
+  height: $nav-bar-height;
+  padding: $nav-padding-y $nav-padding-x;
+  background-color: $nav-color-bg;
+  color: $nav-color;
+  box-shadow: $nav-box-shadow;
+  .nav-title,.nav-user{
+    width: 50%;
+    height: inherit;
+    display: inline-flex;
+    align-items: center;
+  }
+  .nav-title{
+    justify-content: flex-start;
+    > h3{
+      font-size: $nav-title-font-size;
+      line-height: $nav-title-line-height;
+    }
+  }
+  .nav-user{
+    justify-content: flex-end;
+    img{
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+    }
+    p{
+      font-size: $nav-font-size;
+      line-height: $nav-line-height;
+    }
+    .user-data{
+      position: relative;
+      .user-item{
+        position: absolute;
+        text-align: center;
+        width: 200px;
+        background-color: white;
+        padding: $nav-padding-y $nav-padding-x;
+        box-shadow: $nav-box-shadow;
+        top: 2.5rem;
+        right: 0;
+        z-index: 2;
+        &::before{
+          content: '';
+          border: transparent;
+        }
+        .item{
+          padding: 1rem 0;
+          border-bottom: 1px solid $black;
+          &:last-child{
+            border-bottom: none;
+          }
+          .user-name{
+            font-size: $font-size;
+          }
+          .user-email{
+            font-size: $font-size-xs;
+          }
+        }
+        button{
+          width: 100%;
+          font-size: $nav-font-size;
+          line-height: $nav-line-height;
+          padding: $nav-padding-y $nav-padding-x;
+          border: 1px solid $black;
+          border-radius: 2px;
+        }
+      }
+    }
+  }
+}
+.container{
+  height: calc(100vh - (#{$nav-bar-height} + #{$footer-height}));
+  font-size: $container-font-size;
+  line-height: $container-line-height;
+  margin-top: $nav-bar-height;
+  padding: $container-padding-y $container-padding-x;
+  background-color: $container-color-bg;
+  color: $container-color;
+  .card-item{
+    padding: $card-padding-y $card-padding-x;
+    background-color: $card-color-bg;
+    color: $card-color;
+    box-shadow: $card-box-shadow;
+    // display: inline-flex;
+    img{
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+    }
+  }
+}
+
+footer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: $footer-height;
+  font-size: $footer-font-size;
+  line-height: $footer-line-height;
+  padding: $footer-padding-y $footer-padding-x;
+}
