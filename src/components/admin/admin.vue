@@ -1,31 +1,45 @@
 <template>
 	<div class="container">
-			<div :id="users.uid" :key="users.uid" class="card-item">
-				<div>
-					<img :src="users.photoURL" :alt="users.displayName">
-				</div>
-				<div>
-					<p v-text="users.displayName"></p>
-					<p v-text="users.phoneNumber"></p>
-				</div>
-				<div>
-					<button @click="delData(users.uid)">移除帳戶</button>
-				</div>
+		<div v-for="(users,index) in allUser" :id="users.uid" :key="users.uid" class="card-item">
+			<div>
+				<img :src="users.photoURL" :alt="users.displayName">
 			</div>
+			<div>
+				<p v-text="users.displayName"></p>
+				<p v-text="users.phoneNumber"></p>
+			</div>
+			<div>
+				<input type="checkbox" :checked="users.permits" v-model="users.permits" id="permits">
+				<label for="permits">管理者</label>
+			</div>
+			<div>
+				<button @click="update(users.uid,index)">儲存資料</button>
+				<span>|</span>
+				<button @click="deleteAccount(users.uid)">刪除帳戶</button>
+			</div>
+		</div>
+		<div class="message" v-if="showUpdateMessage">
+			<p v-text="updateMessage"></p>
+		</div>
 	</div>
 </template>
 <style lang="scss" scoped src="./admin.scss"></style>
 <script>
 import { mapState, mapActions } from 'vuex';
+import { timeout } from 'q';
+import { setTimeout } from 'timers';
+
 export default {
 	name: 'home',
 	data(){
-		return{}
+		return{
+			updateMessage: null,
+			showUpdateMessage: false
+		}
 	},
 	computed:{
 		...mapState({
-			users: state => state.users,
-			allUsers: state => state.allUsers
+			allUser: state => state.admin.allUser
 		})
 	},
   beforeCreate() {
@@ -33,29 +47,42 @@ export default {
 			this.$router.push('/signin');
 			this.initStore();
     } else {
-			console.log(this.users);
-      this.$store.dispatch('getUsers', {
+      this.$store.dispatch('getUser', {
 				uid: this.$cookie.getCookie('uid'),
-				// permits:(isAdmin) => {
-				// 	if(!isAdmin){
-				// 		this.$router.push('/home');
-				// 	}else{
-				// 		this.$store.dispatch('gitAllUsers', {
-				// 			// uid: this.$cookie.getCookie('uid')
-				// 		})
-				// 	}
-				// }
-      })
+				getUserSuccess:(permits) => {
+          if(!permits) this.$router.push('/home');
+        },
+        getUserFailure: (payload) => {console.log(payload);}
+			})
+			this.$store.dispatch('getAllUser');
     }
   },
-	mounted(){
-		// if(this.users.isAdmin){
-		// 	this.$store.dispatch('getUsers',{uid:this.$cookie.getCookie('uid')});
-		// }else{
-		// 	this.$router.push('/home');
-		// }
-	},
 	components: {},
-	methods:{}
+	methods:{
+		update(uid,index){
+			this.$store.dispatch('updateUser',{
+				displayName: this.allUser[index].displayName,
+				email: this.allUser[index].email,
+				phoneNumber: this.allUser[index].phoneNumber,
+				photoURL: this.allUser[index].photoURL,
+				providerId: this.allUser[index].providerId,
+				uid: this.allUser[index].uid,
+				permits: this.allUser[index].permits,
+				updateSuccess:(res) => {
+					this.showUpdateMessage = res.show;
+					this.updateMessage = res.message;
+					setTimeout(() => {
+						this.showUpdateMessage = false
+					},3000)
+				},
+				updateFailure:(error) => {
+					console.log(error);
+				}
+			})
+		},
+		deleteAccount(){
+			this.$store.dispatch('deleteAccount');
+		}
+	}
 }
 </script>

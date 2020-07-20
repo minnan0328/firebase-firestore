@@ -6,7 +6,7 @@ import SignIn from '@/components/signin/signin';
 import Admin from '@/components/admin/admin';
 Vue.use(VueRouter);
 
-const root = { path: '/', redirect: '/login'};
+const root = { path: '/', redirect: '/home'};
 export const ComponentRouters = [
   {path: '/home', component: Home, name:'Home'},
   { path: '/signin', component: SignIn, name:'SignIn'},

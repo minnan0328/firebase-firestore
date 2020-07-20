@@ -1,7 +1,6 @@
 <template>
-  <div class="container">
+  <div>
     <button type="submit" @click="SignInGoogleAuthProvider()">Google 登入</button>
-    <button @click="onSignIn()">sss</button>
   </div>
 </template>
 <script>
@@ -14,20 +13,26 @@ export default {
       passwordModel: null
     }
   },
+  beforeCreate() {
+    if (this.$cookie.getCookie('token') != null && this.$cookie.getCookie('uid') != null) {
+      this.$router.push('/home');
+    }else{
+      this.$store.commit('initUser');
+    }
+  },
   methods:{
     SignInGoogleAuthProvider(){
       this.$store.dispatch('SignInGoogleAuthProvider',{
         SignInSuccess:(token,uid) => {
           this.$router.push('/home');
-          this.$cookie.setCookie('token', token, 8)
-          this.$cookie.setCookie('uid', uid, 8)
+          this.$cookie.setCookie('token', token, 8);
+          this.$cookie.setCookie('uid', uid, 8);
         },
         SignInFailure: (payload) => {
           console.log(payload);
         }
       })
-      // Auth.signInWithRedirect(GoogleAuthProvider);
-    }
+    },
   }
 }
 </script>

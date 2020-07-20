@@ -1,26 +1,30 @@
 "use strict";
 import Vue from 'vue';
 import Vuex from 'vuex';
-import initState from './initState'
 import moment from 'moment';
+import initState from './initState';
+import Admin from './admin';
 import { DB, Auth, GoogleAuthProvider} from '@/services/firbase.config';
 const UserDB = DB.collection('users');
 Vue.use(Vuex)
 export const store = new Vuex.Store({
-	modules: {},
+	modules: {
+		admin: Admin
+	},
 	state:{
 		users: {},
-		allUsers:[]
+		navberStatus: false
 	},
 	actions:{
 		SignInGoogleAuthProvider({ dispatch },payloads){
 			const payload = payloads;
 			Auth.signInWithPopup(GoogleAuthProvider).then(function (result) {
-				var token = result.credential.accessToken;
-				var user = result.user;
-				console.log(result)
-				console.log(result.getAuthResponse())
-				dispatch('setUser', user);
+				let token = result.credential.accessToken;
+				let user = result.user;
+				let isNewUser = result.additionalUserInfo.isNewUser;
+				if (isNewUser){
+					dispatch('setUser', user);
+				}
 				payload.SignInSuccess(token, user.uid);
 			}).catch(error => {
 				payload.SignInFailure({
@@ -29,18 +33,19 @@ export const store = new Vuex.Store({
 					email: error.email,
 					credential: error.credential
 				})
-			});
+			}).finally(() => {});
 		},
 		SigOutGoogleAuthProvider({ }, payloads){
 			const payload = payloads;
 			Auth.signOut().then(function () {
 				payload.SignOutSuccess();
 			}).catch(function (error) {
-				payload.SignOutFailure();
-			});
+				payload.SignOutFailure(error);
+			}).finally(() => { });
 		},
 		setUser({ commit, dispatch }, payloads){
 			const payload = payloads;
+			console.log('setUser', payload);
 			UserDB.doc(payload.uid).set({
 				displayName: payload.displayName,
 				email: payload.email,
@@ -48,70 +53,57 @@ export const store = new Vuex.Store({
 				photoURL: payload.photoURL,
 				providerId: payload.providerId,
 				uid: payload.uid,
-				isAdmin: false
+				permits: true
 			}).then(() => {
-				dispatch('getUsers', {
+				dispatch('getUser', {
 					uid: payload.uid
 				});
-				console.log(`add:${payload.uid}`);
-				// commit('setUsers', payload);
 			}).catch(error => {
 				console.log(error)
-			});
+			}).finally(() => { });
 		},
-		getUsers({ commit }, payloads){
+		getUser({ commit }, payloads){
 			const payload = payloads;
 			UserDB.doc(payload.uid).get().then(res => {
 				let result = res.data();
-				// payload.permits(result.isAdmin);
-				commit('setUsers', result);
+				payload.getUserSuccess(result.permits);
+				commit('setUser', result);
 			}).catch(error => {
-				console.log(error);
-			});
+				payload.getUserFailure(error);
+			}).finally(() => { })
 		},
-		gitAllUsers({ commit }){
-			UserDB.get().then(res => {
-				let result = [];
-				res.docs.forEach(list => {
-					result.push({
-						displayName: list.displayName,
-						email: list.email,
-						phoneNumber: list.phoneNumber,
-						photoURL: list.photoURL,
-						providerId: list.providerId,
-						uid: list.uid,
-						isAdmin: list.isAdmin
-					})
+		updateUser({commit},payloads){
+			const payload = payloads;
+			UserDB.doc(payload.uid).update({
+				displayName: payload.displayName,
+				email: payload.email,
+				phoneNumber: payload.phoneNumber,
+				photoURL: payload.photoURL,
+				providerId: payload.providerId,
+				uid: payload.uid,
+				permits: payload.permits
+			}).then(() => {
+				payload.updateSuccess({
+					show: true,
+					message: '更新成功！'
 				})
-				commit('setAllUsers', result);
 			}).catch(error => {
 				console.log(error);
-			});
-		},
-		// delUser({ dispatch }, payload){
-		// 	console.log(payload);
-		// 	UserDB.doc(payload.docId).delete().then(Response => {
-		// 		dispatch('getUsers');
-		// 	}).catch(function(error) {
-		// 		console.error("Error removing document: ", error);
-		// 	});
-		// }
+			}).finally(() => { })
+		}
 	},
 	mutations:{
-		setUsers(state, payload){
+		setUser(state, payload){
 			state.users = payload;
 		},
-		setAllUsers(state, payload){
-			state.allUsers = payload;
+		setNavberStatus(state, payload){
+			state.navberStatus = payload;
 		},
-		initUsers(state){
+		initUser(state){
 			state.users = initState.users;
 			// Object.keys(initState).forEach(key => {
 			// 	state[key] = initState[key];
 			// });
-		},
-		initAllUsers(state){
-			state.allUsers = initState.allUsers;
 		}
 	}
 })
