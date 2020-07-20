@@ -6,7 +6,7 @@
 <script>
 import moment from 'moment';
 export default {
-	name: 'footer',
+	name: 'footerbar',
 	data(){
 		return{}
 	},

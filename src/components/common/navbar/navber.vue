@@ -1,6 +1,6 @@
 <template>
   <div class="nav-bar" v-if="$router.currentRoute.name != 'SignIn'">
-    <div class="nav-title" @click="$router.push('/home')">
+    <div class="nav-title" @click.stop="gohome()">
       <h3>Firebase</h3>
     </div>
     <div class="nav-user">
@@ -12,10 +12,10 @@
             <p v-text="users.email" class="user-email"></p>
           </div>
           <div class="item">
-            <button v-if="users.permits" @click="toAdminPage()">管理帳戶</button>
+            <button v-if="users.permits" @click.stop="toAdminPage()">管理帳戶</button>
           </div>
           <div class="item">
-            <button type="submit" @click="signOut()">登出 google 帳戶</button>
+            <button type="submit" @click.stop="signOut()">登出 google 帳戶</button>
           </div>
         </div>
       </div>
@@ -43,12 +43,14 @@ export default {
 	},
 	mounted(){},
 	methods:{
+		gohome(){
+			if(this.$router.currentRoute.name != 'Home'){
+				this.$router.push('/home');
+			}
+		},
 		openUserData(){
       this.isOpenUserData = !this.navberStatus;
       this.$store.commit('setNavberStatus',this.isOpenUserData);
-		},
-		close(){
-			this.isOpenUserData = false;
 		},
 		toAdminPage(){
 			this.$router.push('/admin');

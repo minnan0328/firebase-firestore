@@ -42,7 +42,9 @@ export default {
       })
     }
   },
-	mounted(){},
+	mounted(){
+		this.$store.commit('setNavberStatus',false);
+	},
 	methods:{
 		initStore(){
 			this.$store.commit('initUser');

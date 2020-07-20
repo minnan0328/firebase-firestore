@@ -1,4 +1,6 @@
 <template>
+<div>
+	<Navber></Navber>
 	<div class="container">
 		<div v-for="(users,index) in allUser" :id="users.uid" :key="users.uid" class="card-item">
 			<div>
@@ -22,9 +24,13 @@
 			<p v-text="updateMessage"></p>
 		</div>
 	</div>
+	<Footer></Footer>
+</div>
 </template>
 <style lang="scss" scoped src="./admin.scss"></style>
 <script>
+import Navber from '@/components/common/navbar/navber';
+import Footer from '@/components/common/footer/footer';
 import { mapState, mapActions } from 'vuex';
 import { timeout } from 'q';
 import { setTimeout } from 'timers';
@@ -37,6 +43,7 @@ export default {
 			showUpdateMessage: false
 		}
 	},
+	components: {Navber,Footer},
 	computed:{
 		...mapState({
 			allUser: state => state.admin.allUser
@@ -56,8 +63,10 @@ export default {
 			})
 			this.$store.dispatch('getAllUser');
     }
-  },
-	components: {},
+	},
+	mounted(){
+		this.$store.commit('setNavberStatus',false);
+	},
 	methods:{
 		update(uid,index){
 			this.$store.dispatch('updateUser',{

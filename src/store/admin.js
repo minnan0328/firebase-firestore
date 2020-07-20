@@ -28,11 +28,12 @@ export default {
     },
     deleteAccount({commit},payloads){
       const payload = payloads;
-      console.log(firebase);
-      console.log(firebase.User);
-      Auth.onAuthStateChanged((user) => {
-        console.log(user);
-      })
+      // console.log(firebase);
+      // console.log(firebase.auth());
+      // console.log(Auth.currentUser)
+      // Auth.onAuthStateChanged((user) => {
+      //   console.log(user);
+      // })
     }
   },
   mutations:{

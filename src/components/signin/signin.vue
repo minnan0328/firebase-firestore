@@ -20,6 +20,9 @@ export default {
       this.$store.commit('initUser');
     }
   },
+	mounted(){
+		this.$store.commit('setNavberStatus',false);
+	},
   methods:{
     SignInGoogleAuthProvider(){
       this.$store.dispatch('SignInGoogleAuthProvider',{
