@@ -1,5 +1,5 @@
 <template>
-	<router-view id="app" @click.native="close()"></router-view>
+	<router-view id="app" @click.native="close()" v-cloak></router-view>
 </template>
 <script>
 export default {

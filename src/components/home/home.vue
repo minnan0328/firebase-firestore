@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<Navber></Navber>
-		<div class="container">
+		<div class="container" v-if="Object.keys(users).length">
 			<div :id="users.uid" :key="users.uid" class="card-item">
 				<p v-text="users.uid"></p>
 				<p v-text="users.displayName"></p>
@@ -32,7 +32,7 @@ export default {
 	},
   beforeCreate() {
     if (this.$cookie.getCookie('token') == null && this.$cookie.getCookie('uid') == null) {
-			this.$store.commit('initUser');
+			this.$initState();
 			this.$router.push('/signin');
     } else {
       this.$store.dispatch('getUser', {
@@ -45,10 +45,6 @@ export default {
 	mounted(){
 		this.$store.commit('setNavberStatus',false);
 	},
-	methods:{
-		initStore(){
-			this.$store.commit('initUser');
-		}
-	}
+	methods:{}
 }
 </script>

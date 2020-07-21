@@ -17,7 +17,7 @@ export default {
     if (this.$cookie.getCookie('token') != null && this.$cookie.getCookie('uid') != null) {
       this.$router.push('/home');
     }else{
-      this.$store.commit('initUser');
+      this.$initState();
     }
   },
 	mounted(){

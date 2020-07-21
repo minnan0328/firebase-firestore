@@ -1,7 +1,7 @@
 <template>
 <div>
 	<Navber></Navber>
-	<div class="container">
+	<div class="container" v-if="allUser.length">
 		<div v-for="(users,index) in allUser" :id="users.uid" :key="users.uid" class="card-item">
 			<div>
 				<img :src="users.photoURL" :alt="users.displayName">
@@ -50,9 +50,9 @@ export default {
 		})
 	},
   beforeCreate() {
-    if (this.$cookie.getCookie('token') == null && this.$cookie.getCookie('uid') === null) {
+    if (this.$cookie.getCookie('token') == null && this.$cookie.getCookie('uid') == null) {
 			this.$router.push('/signin');
-			this.initStore();
+			this.$initState();
     } else {
       this.$store.dispatch('getUser', {
 				uid: this.$cookie.getCookie('uid'),
@@ -88,9 +88,6 @@ export default {
 					console.log(error);
 				}
 			})
-		},
-		deleteAccount(){
-			this.$store.dispatch('deleteAccount');
 		}
 	}
 }

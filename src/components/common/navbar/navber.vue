@@ -58,16 +58,11 @@ export default {
 		signOut(){
 			this.$store.dispatch('SigOutGoogleAuthProvider',{
 				SignOutSuccess:() => {
-					this.$cookie.deleteCookie('token', -1);
-					this.$cookie.deleteCookie('uid', -1);
-					this.initStore();
+					this.$initState();
 					this.$router.push('/signin');
 				},
 				SignOutFailure: (payload) => {console.log(payload);}
 			})
-		},
-		initStore(){
-			this.$store.commit('initUser');
 		}
 	}
 }

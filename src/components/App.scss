@@ -42,6 +42,9 @@ $footer-padding-x: 1rem;
 $footer-color: $black;
 $footer-color-bg: $white;
 
+[v-cloak] {
+  display: none;
+}
 
 button{
   background-color: transparent;

@@ -1,5 +1,5 @@
 import initState from './initState';
-import { DB, Auth, firebase } from '@/services/firbase.config';
+import { DB, Auth } from '@/services/firbase.config';
 const UserDB = DB.collection('users');
 
 export default {
@@ -25,15 +25,6 @@ export default {
       }).catch(error => {
         console.log(error);
       }).finally(() => { });
-    },
-    deleteAccount({commit},payloads){
-      const payload = payloads;
-      // console.log(firebase);
-      // console.log(firebase.auth());
-      // console.log(Auth.currentUser)
-      // Auth.onAuthStateChanged((user) => {
-      //   console.log(user);
-      // })
     }
   },
   mutations:{
