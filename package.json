@@ -1,7 +1,7 @@
 {
-  "name": "udn-digital",
+  "name": "firebase.firestore",
   "version": "1.0.0",
-  "description": "A Vue Project",
+  "description": "firebase.firestore",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
