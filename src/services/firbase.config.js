@@ -3,14 +3,14 @@ import "firebase/auth";
 import "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDiQPAO8W8SoI_0JMrBeNPG59A9eMFtt0k",
-  authDomain: "animal-crossing-group-2d1d4.firebaseapp.com",
-  databaseURL: "https://animal-crossing-group-2d1d4.firebaseio.com",
-  projectId: "animal-crossing-group-2d1d4",
-  storageBucket: "animal-crossing-group-2d1d4.appspot.com",
-  messagingSenderId: "421325207272",
-  appId: "1:421325207272:web:7d1789f567f08e03713b5d",
-  measurementId: "G-1ZFJZE3L3K"
+  apiKey: "AIzaSyBZzqF4iwnck1eKEJ66H6NvE39NnWJXaWs",
+  authDomain: "minnanfirebase-b374f.firebaseapp.com",
+  databaseURL: "https://minnanfirebase-b374f.firebaseio.com",
+  projectId: "minnanfirebase-b374f",
+  storageBucket: "minnanfirebase-b374f.appspot.com",
+  messagingSenderId: "180772038793",
+  appId: "1:180772038793:web:609523046e6d884e99be58",
+  measurementId: "G-KDLYN15FSH"
 };
 firebase.initializeApp(firebaseConfig);
 

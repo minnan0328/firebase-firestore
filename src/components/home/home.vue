@@ -9,7 +9,6 @@
 				<p v-text="users.photoURL"></p>
 				<p v-text="users.providerId"></p>
 			</div>
-			<button @click="get()">GET</button>
 		</div>
 		<Footer></Footer>
 	</div>

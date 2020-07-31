@@ -16,8 +16,6 @@
 			</div>
 			<div>
 				<button @click="update(users.uid,index)">儲存資料</button>
-				<span>|</span>
-				<button @click="deleteAccount(users.uid)">刪除帳戶</button>
 			</div>
 		</div>
 		<div class="message" v-if="showUpdateMessage">

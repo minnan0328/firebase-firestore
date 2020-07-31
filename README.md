@@ -1,6 +1,6 @@
-# Webpack + Vue
+# firebase/firestore
 
-> A Vue.js project
+> firestore
 
 ## Build Setup
 
@@ -13,6 +13,13 @@ npm run dev
 
 # 最終上線版本
 npm run build
+
+# 上傳到firebase 伺服器
+firebase deploy
+
+
+Web URL
+https://minnanfirebase-b374f.web.app
 ```
 
 ## Components
