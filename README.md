@@ -18,35 +18,6 @@ npm run build
 firebase deploy
 
 
-Web URL
+# Web URL
 https://minnanfirebase-b374f.web.app
 ```
-
-## Components
-
-> 起點
->> App.vue  
->> App.html  
->> App.scss 
-
-## Create Rule
-> dome
->> dome.vue  
->> dome.html  
->> dome.scss
-
-```bash
-<template src="./dome.html"></template>
-<style lang="scss" scoped src="./dome.scss"></style>
-<script>
-export default {
-  name: 'dome',
-  data(){
-    return{
-      //variable...
-    }
-  }
-}
-</script>
-```
-# firebase
