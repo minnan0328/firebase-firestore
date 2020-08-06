@@ -1,16 +1,21 @@
 <template>
   <div>
-    <button type="submit" @click="SignInGoogleAuthProvider()">Google 登入</button>
+    <div id="firebaseui-auth-container"></div>
+    <!-- <button type="submit" @click="SignInGoogleAuthProvider()">Google 登入</button> -->
+    <button @click="init()">init</button>
   </div>
+
 </template>
 <script>
-import {Auth, GoogleAuthProvider} from '@/services/firbase.config'
+import {AuthProviderBtn} from '@/services/firbase.config';
+
+import * as firebaseui from 'firebaseui';
+
 export default {
   name: 'signin',
   data(){
     return {
-      emailModel: null,
-      passwordModel: null
+      emailModel: null
     }
   },
   beforeCreate() {
@@ -21,24 +26,21 @@ export default {
     }
   },
 	mounted(){
-		this.$store.commit('setNavberStatus',false);
+    AuthProviderBtn({
+      setData: (data) => {
+        this.$store.dispatch('setUser',{
+          data: data,
+          callback: () => this.$router.push('/home')
+        });
+      }
+    });
+    this.$store.commit('setNavberStatus',false);
 	},
-  methods:{
-    SignInGoogleAuthProvider(){
-      this.$store.dispatch('SignInGoogleAuthProvider',{
-        SignInSuccess:(token,uid) => {
-          this.$router.push('/home');
-          this.$cookie.setCookie('token', token, 8);
-          this.$cookie.setCookie('uid', uid, 8);
-        },
-        SignInFailure: (payload) => {
-          console.log(payload);
-        }
-      })
-    },
+  methods: {
+    init(){
+      this.$initState();
+    }
   }
 }
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

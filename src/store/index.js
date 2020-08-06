@@ -16,26 +16,7 @@ export const store = new Vuex.Store({
 		navberStatus: false
 	},
 	actions:{
-		SignInGoogleAuthProvider({ dispatch },payloads){
-			const payload = payloads;
-			Auth.signInWithPopup(GoogleAuthProvider).then(function (result) {
-				let token = result.credential.accessToken;
-				let user = result.user;
-				let isNewUser = result.additionalUserInfo.isNewUser;
-				if (isNewUser){
-					dispatch('setUser', user);
-				}
-				payload.SignInSuccess(token, user.uid);
-			}).catch(error => {
-				payload.SignInFailure({
-					errorCode: error.code,
-					errorMessage: error.message,
-					email: error.email,
-					credential: error.credential
-				})
-			}).finally(() => {});
-		},
-		SigOutGoogleAuthProvider({ }, payloads){
+		SigOutGoogleAuthProvider({ }, payloads) {
 			const payload = payloads;
 			Auth.signOut().then(function () {
 				payload.SignOutSuccess();
@@ -43,21 +24,19 @@ export const store = new Vuex.Store({
 				payload.SignOutFailure(error);
 			}).finally(() => { });
 		},
-		setUser({ commit, dispatch }, payloads){
+		setUser({ commit, dispatch }, payloads) {
 			const payload = payloads;
-			console.log('setUser', payload);
-			UserDB.doc(payload.uid).set({
-				displayName: payload.displayName,
-				email: payload.email,
-				phoneNumber: payload.phoneNumber,
-				photoURL: payload.photoURL,
-				providerId: payload.providerId,
-				uid: payload.uid,
+			UserDB.doc(payload.data.uid).set({
+				displayName: payload.data.displayName,
+				email: payload.data.email,
+				phoneNumber: payload.data.phoneNumber,
+				photoURL: payload.data.photoURL,
+				providerId: payload.data.providerId,
+				uid: payload.data.uid,
 				permits: true
-			}).then(() => {
-				dispatch('getUser', {
-					uid: payload.uid
-				});
+			}).then((res) => {
+				dispatch('getUser', payload.data);
+				payload.callback();
 			}).catch(error => {
 				console.log(error)
 			}).finally(() => { });
@@ -66,10 +45,9 @@ export const store = new Vuex.Store({
 			const payload = payloads;
 			UserDB.doc(payload.uid).get().then(res => {
 				let result = res.data();
-				payload.getUserSuccess(result.permits);
 				commit('setUser', result);
 			}).catch(error => {
-				payload.getUserFailure(error);
+				console.log(error);
 			}).finally(() => { })
 		},
 		updateUser({commit},payloads){

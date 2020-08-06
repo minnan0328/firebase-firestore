@@ -1,6 +1,8 @@
 import * as firebase from "firebase/app";
+import * as firebaseui from 'firebaseui';
 import "firebase/auth";
 import "firebase/firestore";
+import cookie from '@/utilities/Cookie';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBZzqF4iwnck1eKEJ66H6NvE39NnWJXaWs",
@@ -15,7 +17,45 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const DB = firebase.firestore();
+
 const Auth = firebase.auth();
+
 const GoogleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
-export { DB, Auth, GoogleAuthProvider}
+const AuthProviderBtn = (callback) => {
+  // Initialize the FirebaseUI widget using Firebase.
+  if (cookie.getCookie('token') == null && cookie.getCookie('uid') == null && firebaseui.auth.AuthUI.getInstance() == null){
+    const UIAuthProvider = new firebaseui.auth.AuthUI(firebase.auth());
+    UIAuthProvider.start('#firebaseui-auth-container', {
+      signInSuccessUrl: 'home',
+      signInOptions: [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID
+      ],
+      credentialHelper: firebaseui.auth.CredentialHelper.NONE,
+      queryParameterForWidgetMode: 'mode',
+      queryParameterForSignInSuccessUrl: 'signInSuccessUrl',
+      signInFlow: 'popup',
+      callbacks: {
+        signInSuccessWithAuthResult: ((authResult, redirectUrl) => {
+          let token = authResult.credential.accessToken;
+          let user = authResult.user;
+          let isNewUser = authResult.additionalUserInfo.isNewUser;
+          cookie.setCookie('token', token, 8);
+          cookie.setCookie('uid', user.uid, 8);
+          console.log('redirectUrl', redirectUrl);
+          if (isNewUser) {
+            callback.setData(user);
+          }else{
+            return true;
+          }
+        }),
+        signInFailure: (error => {
+          return handleUIError(error);
+        }),
+        uiShown: () => { }
+      }
+    });
+  }
+}
+
+export { DB, Auth, GoogleAuthProvider, AuthProviderBtn}

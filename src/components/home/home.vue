@@ -35,9 +35,7 @@ export default {
 			this.$router.push('/signin');
     } else {
       this.$store.dispatch('getUser', {
-				uid: this.$cookie.getCookie('uid'),
-				getUserSuccess:(permits) => {},
-        getUserFailure: (payload) => {console.log(payload);}
+				uid: this.$cookie.getCookie('uid')
       })
     }
   },

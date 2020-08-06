@@ -34,9 +34,9 @@ module.exports = {
         exclude: (file) => /node_modules/.test(file) && !/\.vue\.js/.test(file), //過濾 node_modules 和 不是 .vue and .js 檔案
         use: {
           loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          },
+          // options: {
+          //   presets: ['@babel/preset-env'],
+          // },
         },
         include: [
           resolve('src'),
