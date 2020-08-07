@@ -1,18 +1,19 @@
 process.env.NODE_ENV = 'production'
 
-const path = require('path')
-const webpack = require('webpack')
-const config = require('./webpack.config')
-const merge = require('webpack-merge')
-const baseWebpackConfig = require('./webpack.config.base')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const TerserJSPlugin = require('terser-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const path = require('path');
+const webpack = require('webpack');
+const config = require('./webpack.config');
+const merge = require('webpack-merge');
+const baseWebpackConfig = require('./webpack.config.base');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 
 module.exports = merge(baseWebpackConfig, {
@@ -68,6 +69,11 @@ module.exports = merge(baseWebpackConfig, {
 				ignore: ['.*']
 			}
 		]),
-		new VueLoaderPlugin()
+		new VueLoaderPlugin(),
+		new WorkboxPlugin.GenerateSW({
+			// swSrc: 'dist/sw-generated-webpack.js',
+			clientsClaim: true,
+			skipWaiting: true,
+		})
 	]
 })

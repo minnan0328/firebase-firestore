@@ -10,6 +10,7 @@
 				<p v-text="users.providerId"></p>
 			</div>
 		</div>
+		<img src="http://placehold.it/1024X1024.png" style="width=100%" >
 		<Footer></Footer>
 	</div>
 </template>
