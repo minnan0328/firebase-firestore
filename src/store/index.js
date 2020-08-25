@@ -4,7 +4,7 @@ import Vuex from 'vuex';
 import moment from 'moment';
 import initState from './initState';
 import Admin from './admin';
-import { DB, Auth, GoogleAuthProvider} from '@/services/firbase.config';
+import { DB, Auth} from '@/services/firbase.config';
 const UserDB = DB.collection('users');
 Vue.use(Vuex)
 export const store = new Vuex.Store({

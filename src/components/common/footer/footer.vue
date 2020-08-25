@@ -11,7 +11,7 @@ export default {
 		return{}
 	},
 	computed: {
-		copyright() {return `${moment().year()} © minnanliao`},
+		copyright() {return `Copyright © ${moment().year()} Min. All rights reserved`},
 	}
 }
 </script>
