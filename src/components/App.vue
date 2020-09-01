@@ -8,6 +8,8 @@ export default {
 		return{}
 	},
 	computed: {},
+	created(){
+	},
 	methods:{
 		close(){
 			this.$store.commit('setNavberStatus',false);

@@ -1,17 +1,18 @@
 process.env.NODE_ENV = 'development'
 
-const path = require('path')
-const webpack = require('webpack')
-const config = require('./webpack.config')
-const merge = require('webpack-merge')
-const baseWebpackConfig = require('./webpack.config.base')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-const portfinder = require('portfinder')
-const notifier = require('node-notifier')
-const packageConfig = require('../package.json')
+const path = require('path');
+const webpack = require('webpack');
+const config = require('./webpack.config');
+const merge = require('webpack-merge');
+const baseWebpackConfig = require('./webpack.config.base');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
+const portfinder = require('portfinder');
+const notifier = require('node-notifier');
+const packageConfig = require('../package.json');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   mode: 'development',
@@ -52,6 +53,10 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       },
     ]),
     new VueLoaderPlugin(),
+    // new WorkboxPlugin.GenerateSW({
+    //   clientsClaim: true,
+    //   skipWaiting: true,
+    // })
   ],
 });
 

@@ -2,6 +2,8 @@ import * as firebase from "firebase/app";
 import * as firebaseui from 'firebaseui';
 import "firebase/auth";
 import "firebase/firestore";
+
+
 import cookie from '@/utilities/Cookie';
 
 const firebaseConfig = {
@@ -16,13 +18,14 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-const DB = firebase.firestore();
 
-const Auth = firebase.auth();
+export const DB = firebase.firestore();
 
-const GoogleAuthProvider = new firebase.auth.GoogleAuthProvider();
+export const Auth = firebase.auth();
 
-const AuthProviderBtn = (callback) => {
+// const GoogleAuthProvider = new firebase.auth.GoogleAuthProvider();
+
+export const AuthProviderBtn = (callback) => {
   // Initialize the FirebaseUI widget using Firebase.
   if (cookie.getCookie('token') == null && cookie.getCookie('uid') == null && firebaseui.auth.AuthUI.getInstance() == null){
     const UIAuthProvider = new firebaseui.auth.AuthUI(firebase.auth());
@@ -42,7 +45,6 @@ const AuthProviderBtn = (callback) => {
           let isNewUser = authResult.additionalUserInfo.isNewUser;
           cookie.setCookie('token', token, 8);
           cookie.setCookie('uid', user.uid, 8);
-          console.log('redirectUrl', redirectUrl);
           if (isNewUser) {
             callback.setData(user);
           }else{
@@ -57,5 +59,3 @@ const AuthProviderBtn = (callback) => {
     });
   }
 }
-
-export { DB, Auth, GoogleAuthProvider, AuthProviderBtn}

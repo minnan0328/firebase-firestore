@@ -1,24 +1,26 @@
 <template>
   <div class="nav-bar" v-if="$router.currentRoute.name != 'SignIn'">
-    <div class="nav-title" @click.stop="gohome()">
-      <h3>Firebase</h3>
-    </div>
-    <div class="nav-user">
-      <div class="user-data">
-        <img :src="users.photoURL" :alt="users.displayName" @click.stop="openUserData()">
-        <div class="user-item" v-if="navberStatus">
-          <div class="item">
-            <p v-text="users.displayName" class="user-name"></p>
-            <p v-text="users.email" class="user-email"></p>
-          </div>
-          <div class="item">
-            <button v-if="users.permits" @click.stop="toAdminPage()">管理帳戶</button>
-          </div>
-          <div class="item">
-            <button type="submit" @click.stop="signOut()">登出 google 帳戶</button>
-          </div>
-        </div>
-      </div>
+		<div class="container d-flex justify-content-center">
+			<div class="nav-title" @click.stop="gohome()">
+				<h3>Firebase</h3>
+			</div>
+			<div class="nav-user">
+				<div class="user-data">
+					<img :src="users.photoURL" :alt="users.displayName" @click.stop="openUserData()">
+					<div class="user-item" v-if="navberStatus">
+						<div class="item">
+							<p v-text="users.displayName" class="user-name"></p>
+							<p v-text="users.email" class="user-email"></p>
+						</div>
+						<div class="item">
+							<button v-if="users.permits" @click.stop="toAdminPage()">管理帳戶</button>
+						</div>
+						<div class="item">
+							<button type="submit" @click.stop="signOut()">登出 google 帳戶</button>
+						</div>
+					</div>
+				</div>
+		</div>
     </div>
   </div>
 </template>

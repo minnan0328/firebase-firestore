@@ -1,15 +1,16 @@
 <template>
-	<div>
+	<div class="container">
 		<Navber></Navber>
-		<div class="container" v-if="Object.keys(users).length">
-			<div :id="users.uid" :key="users.uid" class="card-item">
+		<div class="main" v-if="Object.keys(users).length">
+			<!-- <div :id="users.uid" :key="users.uid" class="card-item">
 				<p v-text="users.uid"></p>
 				<p v-text="users.displayName"></p>
 				<p v-text="users.phoneNumber"></p>
 				<p v-text="users.photoURL"></p>
 				<p v-text="users.providerId"></p>
-			</div>
+			</div> -->
 		</div>
+		<!-- <img src="http://placehold.it/1024X1024.png" style="width=10%" > -->
 		<Footer></Footer>
 	</div>
 </template>
